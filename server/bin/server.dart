@@ -1,5 +1,26 @@
-import 'package:server/server.dart' as server;
+import 'package:dotenv/dotenv.dart';
+import 'package:stormberry/stormberry.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${server.calculate()}!');
+  final dotEnv = DotEnv(includePlatformEnvironment: true)..load(['.env']);
+
+  final database = Database(
+    database: dotEnv.getOrElse(
+      'POSTGRES_DB',
+      () => throw Exception('POSTGRES_DB not defined'),
+    ),
+    host: dotEnv.getOrElse(
+      'POSTGRES_DB',
+      () => throw Exception('POSTGRES_DB not defined'),
+    ),
+    port: int.parse(dotEnv.getOrElse(
+      'POSTGRES_DB',
+      () => throw Exception('POSTGRES_DB not defined'),
+    )),
+    useSSL: false,
+    password: dotEnv.getOrElse(
+      'POSTGRES_DB',
+      () => throw Exception('POSTGRES_DB not defined'),
+    ),
+  );
 }
