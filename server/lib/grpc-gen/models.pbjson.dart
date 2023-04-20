@@ -21,3 +21,18 @@ const User$json = const {
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userDescriptor = $convert.base64Decode('CgRVc2VyEg4KAmlkGAEgASgJUgJpZBIaCgh1c2VybmFtZRgCIAEoCVIIdXNlcm5hbWUSFAoFcGhvbmUYAyABKAlSBXBob25lEjkKCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgljcmVhdGVkQXQ=');
+@$core.Deprecated('Use photoDescriptor instead')
+const Photo$json = const {
+  '1': 'Photo',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'url', '3': 2, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'created_at', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
+    const {'1': 'creator', '3': 5, '4': 1, '5': 11, '6': '.bereal.User', '10': 'creator'},
+    const {'1': 'likers', '3': 6, '4': 3, '5': 11, '6': '.bereal.User', '10': 'likers'},
+  ],
+};
+
+/// Descriptor for `Photo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List photoDescriptor = $convert.base64Decode('CgVQaG90bxIOCgJpZBgBIAEoCVICaWQSEAoDdXJsGAIgASgJUgN1cmwSIAoLZGVzY3JpcHRpb24YAyABKAlSC2Rlc2NyaXB0aW9uEjkKCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgljcmVhdGVkQXQSJgoHY3JlYXRvchgFIAEoCzIMLmJlcmVhbC5Vc2VyUgdjcmVhdG9yEiQKBmxpa2VycxgGIAMoCzIMLmJlcmVhbC5Vc2VyUgZsaWtlcnM=');

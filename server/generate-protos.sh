@@ -10,4 +10,4 @@ protoc -I protos/ --dart_out=lib/grpc-gen/ protos/models.proto
 protoc -I protos/ --dart_out=lib/grpc-gen/ google/protobuf/timestamp.proto google/protobuf/field_mask.proto google/protobuf/empty.proto
 
 # Generate models + grpc stubs
-protoc -I protos/ --dart_out=grpc:lib/grpc-gen/ protos/user_service.proto
+protoc -I protos/ --dart_out=grpc:lib/grpc-gen/ protos/user_service.proto protos/photo_service.proto

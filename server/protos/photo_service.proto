@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package bereal;
+
+
+import "models.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+// Generated according to https://cloud.google.com/apis/design/standard_methods
+service PhotoService {
+  rpc ListPhotos(ListPhotosRequest) returns (ListPhotosResponse) {}
+  rpc GetPhoto(GetPhotoRequest) returns (Photo) {}
+  rpc CreatePhoto(CreatePhotoRequest) returns (Photo) {}
+  rpc UpdatePhoto(UpdatePhotoRequest) returns (Photo) {}
+  rpc DeletePhoto(DeletePhotoRequest) returns (google.protobuf.Empty) {}
+}
+
+message ListPhotosRequest {
+  // The parent resource id, for example, "shelves/shelf1"
+  string parent = 1;
+
+  // The maximum number of items to return.
+  int32 page_size = 2;
+
+  // The next_page_token value returned from a previous List request, if any.
+  string page_token = 3;
+}
+
+message ListPhotosResponse {
+  // The field id should match the noun "photo" in the method id.
+  // There will be a maximum number of items returned based on the page_size field in the request.
+  repeated Photo photos = 1;
+
+  // Token to retrieve the next page of results, or empty if there are no more results in the list.
+  string next_page_token = 2;
+}
+
+message GetPhotoRequest {
+  // The field will contain name of the resource requested.
+  string id = 1;
+}
+
+message CreatePhotoRequest {
+  Photo photo = 1;
+}
+
+message UpdatePhotoRequest {
+  // The photo resource which replaces the resource on the server.
+  Photo photo = 1;
+
+  // The update mask applies to the resource. For the `FieldMask` definition,
+  // see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeletePhotoRequest {
+  // The resource id of the photo to be deleted.
+  string id = 1;
+}

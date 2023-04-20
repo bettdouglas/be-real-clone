@@ -10,7 +10,7 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'models.pb.dart' as $1;
-import 'google/protobuf/field_mask.pb.dart' as $3;
+import 'google/protobuf/field_mask.pb.dart' as $4;
 
 class ListUsersRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ListUsersRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'bereal'), createEmptyInstance: create)
@@ -304,14 +304,14 @@ class CreateUserResponse extends $pb.GeneratedMessage {
 class UpdateUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateUserRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'bereal'), createEmptyInstance: create)
     ..aOM<$1.User>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'user', subBuilder: $1.User.create)
-    ..aOM<$3.FieldMask>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateMask', subBuilder: $3.FieldMask.create)
+    ..aOM<$4.FieldMask>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateMask', subBuilder: $4.FieldMask.create)
     ..hasRequiredFields = false
   ;
 
   UpdateUserRequest._() : super();
   factory UpdateUserRequest({
     $1.User? user,
-    $3.FieldMask? updateMask,
+    $4.FieldMask? updateMask,
   }) {
     final _result = create();
     if (user != null) {
@@ -355,15 +355,15 @@ class UpdateUserRequest extends $pb.GeneratedMessage {
   $1.User ensureUser() => $_ensure(0);
 
   @$pb.TagNumber(2)
-  $3.FieldMask get updateMask => $_getN(1);
+  $4.FieldMask get updateMask => $_getN(1);
   @$pb.TagNumber(2)
-  set updateMask($3.FieldMask v) { setField(2, v); }
+  set updateMask($4.FieldMask v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasUpdateMask() => $_has(1);
   @$pb.TagNumber(2)
   void clearUpdateMask() => clearField(2);
   @$pb.TagNumber(2)
-  $3.FieldMask ensureUpdateMask() => $_ensure(1);
+  $4.FieldMask ensureUpdateMask() => $_ensure(1);
 }
 
 class DeleteUserRequest extends $pb.GeneratedMessage {
