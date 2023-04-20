@@ -33,8 +33,12 @@ void main(List<String> arguments) async {
     ),
   );
 
+  final interceptors = <Interceptor>[
+    authInterceptor,
+  ];
   final server = Server(
     [UserService(userRepository: database.users)],
+    interceptors,
   );
   final ip = InternetAddress.anyIPv4;
   final port = int.parse(dotEnv.getOrElse('PORT', () => '8087'));
