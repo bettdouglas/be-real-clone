@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package bereal;
+
+import "models.proto";
+import "google/protobuf/empty.proto";
+
+service LikeService {
+    rpc CreateLike (CreateLikeRequest) returns (CreateLikeResponse);
+    rpc DeleteLike (DeleteLikeRequest) returns (google.protobuf.Empty);
+    rpc ListLikes (ListLikesRequest) returns (ListLikesResponse);
+}   
+
+message CreateLikeRequest {
+    string photo_id = 1;
+}
+
+message CreateLikeResponse {
+    Like like = 2;
+}
+
+message DeleteLikeRequest {
+    string id = 1;
+}
+
+message ListLikesRequest {
+    string photo_id = 1;
+}
+
+message ListLikesResponse {
+    repeated Like likes = 2;
+}
