@@ -62,6 +62,9 @@ abstract class Like {
 
   @ViewedIn(#Base, as: #Reduced)
   User get user;
+
+  @HiddenIn(#Base)
+  Photo get photo;
 }
 
 class UserNameQuery extends Query<BaseUserView?, String> {

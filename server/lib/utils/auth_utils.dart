@@ -50,6 +50,7 @@ Future<Map<String, dynamic>> decodeJwt(String token) async {
   final verified = await unverified.verify(keyStore);
   if (verified) {
     final claims = unverified.claims.toJson();
+    claims['user_id'] = claims['id'];
     return claims;
   } else {
     throw InvalidTokenException('Invalid token');

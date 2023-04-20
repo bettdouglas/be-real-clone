@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dotenv/dotenv.dart';
 import 'package:grpc/grpc.dart';
 import 'package:server/database/models.dart';
 import 'package:server/interceptors/auth_interceptor.dart';

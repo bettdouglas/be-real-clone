@@ -191,8 +191,8 @@ class _LikeRepository extends BaseRepository
     if (requests.isEmpty) return;
     var values = QueryValues();
     await db.query(
-      'INSERT INTO "likes" ( "id", "created_at", "user_id", "photos_id" )\n'
-      'VALUES ${requests.map((r) => '( ${values.add(r.id)}:int8, ${values.add(r.createdAt)}:timestamp, ${values.add(r.userId)}:text, ${values.add(r.photosId)}:text )').join(', ')}\n',
+      'INSERT INTO "likes" ( "id", "created_at", "user_id", "photo_id" )\n'
+      'VALUES ${requests.map((r) => '( ${values.add(r.id)}:int8, ${values.add(r.createdAt)}:timestamp, ${values.add(r.userId)}:text, ${values.add(r.photoId)}:text )').join(', ')}\n',
       values.values,
     );
   }
@@ -203,9 +203,9 @@ class _LikeRepository extends BaseRepository
     var values = QueryValues();
     await db.query(
       'UPDATE "likes"\n'
-      'SET "created_at" = COALESCE(UPDATED."created_at", "likes"."created_at"), "user_id" = COALESCE(UPDATED."user_id", "likes"."user_id"), "photos_id" = COALESCE(UPDATED."photos_id", "likes"."photos_id")\n'
-      'FROM ( VALUES ${requests.map((r) => '( ${values.add(r.id)}:int8::int8, ${values.add(r.createdAt)}:timestamp::timestamp, ${values.add(r.userId)}:text::text, ${values.add(r.photosId)}:text::text )').join(', ')} )\n'
-      'AS UPDATED("id", "created_at", "user_id", "photos_id")\n'
+      'SET "created_at" = COALESCE(UPDATED."created_at", "likes"."created_at"), "user_id" = COALESCE(UPDATED."user_id", "likes"."user_id"), "photo_id" = COALESCE(UPDATED."photo_id", "likes"."photo_id")\n'
+      'FROM ( VALUES ${requests.map((r) => '( ${values.add(r.id)}:int8::int8, ${values.add(r.createdAt)}:timestamp::timestamp, ${values.add(r.userId)}:text::text, ${values.add(r.photoId)}:text::text )').join(', ')} )\n'
+      'AS UPDATED("id", "created_at", "user_id", "photo_id")\n'
       'WHERE "likes"."id" = UPDATED."id"',
       values.values,
     );
@@ -249,13 +249,13 @@ class LikeInsertRequest {
     required this.id,
     required this.createdAt,
     required this.userId,
-    this.photosId,
+    required this.photoId,
   });
 
   final int id;
   final DateTime createdAt;
   final String userId;
-  final String? photosId;
+  final String photoId;
 }
 
 class UserUpdateRequest {
@@ -295,13 +295,13 @@ class LikeUpdateRequest {
     required this.id,
     this.createdAt,
     this.userId,
-    this.photosId,
+    this.photoId,
   });
 
   final int id;
   final DateTime? createdAt;
   final String? userId;
-  final String? photosId;
+  final String? photoId;
 }
 
 class FullUserViewQueryable extends KeyedViewQueryable<FullUserView, String> {
@@ -434,12 +434,12 @@ class BasePhotoViewQueryable extends KeyedViewQueryable<BasePhotoView, String> {
       'LEFT JOIN (${ReducedUserViewQueryable().query}) "creator"'
       'ON "photos"."creator_id" = "creator"."id"'
       'LEFT JOIN ('
-      '  SELECT "likes"."photos_id",'
+      '  SELECT "likes"."photo_id",'
       '    to_jsonb(array_agg("likes".*)) as data'
       '  FROM (${BaseLikeViewQueryable().query}) "likes"'
-      '  GROUP BY "likes"."photos_id"'
+      '  GROUP BY "likes"."photo_id"'
       ') "likes"'
-      'ON "photos"."id" = "likes"."photos_id"';
+      'ON "photos"."id" = "likes"."photo_id"';
 
   @override
   String get tableAlias => 'photos';
@@ -486,12 +486,12 @@ class CompletePhotoViewQueryable extends KeyedViewQueryable<CompletePhotoView, S
       'LEFT JOIN (${ReducedUserViewQueryable().query}) "creator"'
       'ON "photos"."creator_id" = "creator"."id"'
       'LEFT JOIN ('
-      '  SELECT "likes"."photos_id",'
+      '  SELECT "likes"."photo_id",'
       '    to_jsonb(array_agg("likes".*)) as data'
       '  FROM (${BaseLikeViewQueryable().query}) "likes"'
-      '  GROUP BY "likes"."photos_id"'
+      '  GROUP BY "likes"."photo_id"'
       ') "likes"'
-      'ON "photos"."id" = "likes"."photos_id"';
+      'ON "photos"."id" = "likes"."photo_id"';
 
   @override
   String get tableAlias => 'photos';
