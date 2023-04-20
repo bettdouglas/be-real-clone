@@ -1,6 +1,5 @@
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:jose/jose.dart';
-import 'package:dotenv/dotenv.dart';
 import 'package:server/database/models.dart';
 import 'package:server/utils/dotenv.dart';
 
