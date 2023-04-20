@@ -4,6 +4,7 @@ part 'models.schema.dart';
 
 @Model(
   tableName: 'accounts',
+  views: [#Full, #Reduced, #Base],
 )
 abstract class User {
   // the firebase id
@@ -12,16 +13,60 @@ abstract class User {
 
   String get username;
 
+  @HiddenIn(#Reduced)
   String? get phone;
 
   DateTime get createdAt;
 
+  @HiddenIn(#Reduced)
+  @HiddenIn(#Full)
   String get passwordHash;
+
+  @HiddenIn(#Reduced)
+  @HiddenIn(#Base)
+  @ViewedIn(#Full, as: #Base)
+  List<Photo> get photos;
 }
 
-class UserNameQuery extends Query<UserView?, String> {
+@Model(
+  tableName: 'photos',
+  views: [#Base, #Complete],
+)
+abstract class Photo {
+  @PrimaryKey()
+  String get id;
+
+  String get url;
+
+  String get description;
+
+  DateTime get createdAt;
+
+  @ViewedIn(#Base, as: #Reduced)
+  @ViewedIn(#Complete, as: #Reduced)
+  User get creator;
+
+  @ViewedIn(#Base, as: #Base)
+  @ViewedIn(#Complete, as: #Base)
+  List<Like> get likes;
+}
+
+@Model(
+  views: [#Base],
+)
+abstract class Like {
+  @PrimaryKey()
+  int get id;
+
+  DateTime get createdAt;
+
+  @ViewedIn(#Base, as: #Reduced)
+  User get user;
+}
+
+class UserNameQuery extends Query<BaseUserView?, String> {
   @override
-  Future<UserView?> apply(Database db, String params) async {
+  Future<BaseUserView?> apply(Database db, String params) async {
     final query = 'SELECT "accounts".*'
         'FROM "accounts"'
         'WHERE "accounts".username = @username';
@@ -33,6 +78,6 @@ class UserNameQuery extends Query<UserView?, String> {
     if (result.isEmpty) {
       return null;
     }
-    return UserViewQueryable().decode(TypedMap(result.first.toColumnMap()));
+    return BaseUserViewQueryable().decode(TypedMap(result.first.toColumnMap()));
   }
 }
