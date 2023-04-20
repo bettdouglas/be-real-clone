@@ -7,14 +7,14 @@ void main() {
   final dotEnv = DotEnv(includePlatformEnvironment: true)..load(['.env']);
 
   late String secretKey;
-  late UserView user;
+  late BaseUserView user;
 
   setUpAll(() {
     secretKey = dotEnv.getOrElse(
       'SECRET_KEY',
       () => throw 'SECRET_KEY not defined',
     );
-    user = UserView(
+    user = BaseUserView(
       createdAt: DateTime.now(),
       id: '1',
       passwordHash: 'hashed',

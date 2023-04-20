@@ -40,7 +40,7 @@ class UserService extends UserServiceBase {
         passwordHash: passwordHash,
       ),
     );
-    final gotUser = await userRepository.queryUser(id);
+    final gotUser = await userRepository.queryBaseView(id);
     return CreateUserResponse(
       user: gotUser!.asGrpcUser(),
       jwt: createJwt(gotUser),
@@ -61,7 +61,7 @@ class UserService extends UserServiceBase {
     ServiceCall call,
     GetUserRequest request,
   ) async {
-    final user = await userRepository.queryUser(request.id);
+    final user = await userRepository.queryReducedView(request.id);
     if (user == null) {
       throw GrpcError.notFound();
     }
@@ -74,7 +74,7 @@ class UserService extends UserServiceBase {
     ListUsersRequest request,
   ) async {
     final offSet = int.tryParse(request.pageToken) ?? 0;
-    final users = await userRepository.queryUsers(
+    final users = await userRepository.queryReducedViews(
       QueryParams(offset: offSet, limit: 100),
     );
     return ListUsersResponse(
@@ -129,18 +129,37 @@ class UserService extends UserServiceBase {
       username: username,
     );
     await userRepository.updateOne(userUpdateRequest);
-    final updatedUser = await userRepository.queryUser(user.id);
+    final updatedUser = await userRepository.queryBaseView(user.id);
     return updatedUser!.asGrpcUser();
   }
 }
 
-extension AsGrpcUser on UserView {
+extension AsReducedGrpcUser on ReducedUserView {
   grpc.User asGrpcUser() {
     return grpc.User(
-      createdAt: Timestamp.fromDateTime(createdAt),
       id: id,
-      phone: phone,
       username: username,
+      createdAt: Timestamp.fromDateTime(createdAt),
+    );
+  }
+}
+
+// extension AsFullGrpcUser on FullUserView {
+//   grpc.User asGrpcUser() {
+//     return grpc.User(
+//       id: id,
+//       username: username,
+//       createdAt: Timestamp.fromDateTime(createdAt),
+//     );
+//   }
+// }
+
+extension AsBaseGrpcUser on BaseUserView {
+  grpc.User asGrpcUser() {
+    return grpc.User(
+      id: id,
+      username: username,
+      createdAt: Timestamp.fromDateTime(createdAt),
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:server/database/models.dart';
 import 'package:server/utils/dotenv.dart';
 
 String createJwt(
-  UserView user, {
+  BaseUserView user, {
   Duration expiry = const Duration(days: 2),
 }) {
   final secretKey = dotEnv.getOrElse(
