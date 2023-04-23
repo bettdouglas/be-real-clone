@@ -10,7 +10,6 @@ Future<GrpcError?> authInterceptor(
     '/bereal.UserService/CreateUser',
   ];
   final metadata = call.clientMetadata ?? {};
-  print(call.clientMetadata);
   final methodName = metadata[':path'];
   if (openMethods.contains(methodName)) {
     return null;
@@ -21,12 +20,16 @@ Future<GrpcError?> authInterceptor(
   }
   try {
     final claims = await decodeJwt(token);
-    metadata
-        .addAll(claims.map((key, value) => MapEntry(key, value.toString())));
+    print(claims);
+    call.clientMetadata!.addAll(
+      claims.map(
+        (key, value) => MapEntry(key, value.toString()),
+      ),
+    );
     return null;
   } on InvalidTokenException {
     return GrpcError.unauthenticated();
   } catch (e) {
-    return GrpcError.unknown();
+    return GrpcError.unknown(e.toString());
   }
 }

@@ -89,6 +89,10 @@ class PhotoService extends PhotoServiceBase {
         description = photo.description;
       }
     }
+    final toUpdate = await photoRepository.queryBaseView(photo.id);
+    if (toUpdate == null) {
+      throw GrpcError.notFound('Photo not found');
+    }
     final updatePhotoRequest = PhotoUpdateRequest(
       id: photo.id,
       description: description,

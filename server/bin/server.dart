@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:grpc/grpc.dart';
 import 'package:server/database/models.dart';
 import 'package:server/interceptors/auth_interceptor.dart';
+import 'package:server/services/photo_service.dart';
 import 'package:server/services/user_service.dart';
 import 'package:server/utils/dotenv.dart';
 import 'package:stormberry/stormberry.dart';
@@ -36,7 +37,10 @@ void main(List<String> arguments) async {
     authInterceptor,
   ];
   final server = Server(
-    [UserService(userRepository: database.users)],
+    [
+      UserService(userRepository: database.users),
+      PhotoService(photoRepository: database.photos),
+    ],
     interceptors,
   );
   final ip = InternetAddress.anyIPv4;
